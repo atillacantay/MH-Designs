@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Layout } from "antd";
+import Header from "./Components/Header/Header";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import MainPage from "./Containers/MainPage";
+import Footer from "./Components/Footer";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Test from "./Containers/Test";
+import Components from "./Containers/Components/Components";
+
+const { Content } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sidebar />
+        <Layout>
+          <Header />
+          <Content>
+            <Switch>
+              <Route path="/" exact={true}>
+                <MainPage />
+              </Route>
+              <Route path="/test">
+                <Test />
+              </Route>
+              <Route path="/components">
+                <Components />
+              </Route>
+            </Switch>
+          </Content>
+          <Footer />
+        </Layout>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

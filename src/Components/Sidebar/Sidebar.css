@@ -1,0 +1,9 @@
+.logo {
+  height: 40px;
+  background-image: url(../../Images/logo.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 16px;
+}
