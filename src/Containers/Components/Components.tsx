@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Button,
   Checkbox,
@@ -6,13 +8,13 @@ import {
   Input,
   Radio,
   Row,
+  Tooltip,
   Typography,
 } from "antd";
-import { CheckboxChangeEvent } from "antd/lib/checkbox";
-import { CheckboxValueType } from "antd/lib/checkbox/Group";
 import { RadioChangeEvent } from "antd/lib/radio";
-import React from "react";
+import { ReloadOutlined, FileImageOutlined } from "@ant-design/icons";
 import "./Components.css";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 const ButtonTypes: ["default", "primary", "ghost", "dashed", "link", "text"] = [
   "default",
@@ -31,11 +33,7 @@ interface ButtonProps {
   type?: typeof ButtonTypes[number];
   shape?: typeof ButtonShapes[number];
   size?: typeof ButtonSizes[number];
-  loading?:
-    | boolean
-    | {
-        delay?: number;
-      };
+  loading?: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
   text?: string;
@@ -47,17 +45,31 @@ export default function Components() {
     text: "Button",
   });
 
+  function handleReload() {
+    setButtonProps({ type: "default", text: "Button" });
+  }
+
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setButtonProps({ ...buttonProps, text: event.target.value });
   }
 
   function handleRadioChange(event: RadioChangeEvent) {
-    // if (buttonProps.shape) setButtonProps({ ...buttonProps, shape: undefined });
-    console.log(event.target.name);
-    if (event.target.name === "shape")
+    setButtonProps({
+      ...buttonProps,
+      [event.target.name as any]: event.target.value,
+    });
+  }
+
+  function handleCheck(event: CheckboxChangeEvent) {
+    if (event.target.name === "icon")
       setButtonProps({
         ...buttonProps,
-        [event.target.name as any]: event.target.value,
+        icon: event.target.checked && <FileImageOutlined />,
+      });
+    else
+      setButtonProps({
+        ...buttonProps,
+        [event.target.name as any]: event.target.checked,
       });
   }
 
@@ -71,11 +83,13 @@ export default function Components() {
         <Col span={12}>
           <Row gutter={[0, 16]}>
             <Col span={24}>
+              <Tooltip title="Reload">
+                <Button icon={<ReloadOutlined />} onClick={handleReload} />
+              </Tooltip>
+            </Col>
+            <Col span={24}>
               <Typography.Title level={5}>Text</Typography.Title>
-              <Input
-                defaultValue={buttonProps.text}
-                onChange={handleInputChange}
-              />
+              <Input value={buttonProps.text} onChange={handleInputChange} />
             </Col>
             <Col span={24}>
               <Typography.Title level={5}>Shape</Typography.Title>
@@ -121,6 +135,30 @@ export default function Components() {
                   </Radio.Button>
                 ))}
               </Radio.Group>
+            </Col>
+            <Col span={24}>
+              <Typography.Title level={5}>Others</Typography.Title>
+              <Checkbox
+                name="loading"
+                checked={buttonProps.loading}
+                onChange={handleCheck}
+              >
+                Loading
+              </Checkbox>
+              <Checkbox
+                name="disabled"
+                checked={buttonProps.disabled}
+                onChange={handleCheck}
+              >
+                Disabled
+              </Checkbox>
+              <Checkbox
+                name="icon"
+                checked={!!buttonProps.icon}
+                onChange={handleCheck}
+              >
+                With Icon
+              </Checkbox>
             </Col>
           </Row>
         </Col>
