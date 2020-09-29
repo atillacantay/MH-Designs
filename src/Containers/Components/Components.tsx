@@ -61,10 +61,6 @@ export default function Components() {
       });
   }
 
-  function handleCheckbox(checkedValues: CheckboxValueType[]) {
-    console.log(checkedValues);
-  }
-
   return (
     <div className="components-root">
       <Row align="middle">
@@ -83,11 +79,7 @@ export default function Components() {
             </Col>
             <Col span={24}>
               <Typography.Title level={5}>Shape</Typography.Title>
-              <Checkbox.Group
-                options={ButtonShapes}
-                onChange={handleCheckbox}
-              />
-              {/* <Radio.Group
+              <Radio.Group
                 name="shape"
                 value={buttonProps.shape}
                 onChange={handleRadioChange}
@@ -98,7 +90,7 @@ export default function Components() {
                     {type}
                   </Radio.Button>
                 ))}
-              </Radio.Group> */}
+              </Radio.Group>
             </Col>
             <Col span={24}>
               <Typography.Title level={5}>Type</Typography.Title>
